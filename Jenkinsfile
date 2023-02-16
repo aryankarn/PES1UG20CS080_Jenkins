@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh './pes1ug20cs080-1'
+                sh 'if [ -f ./pes1ug20cs080-1 ]; then ./pes1ug20cs080-1; else echo "ERROR: pes1ug20cs080-1 not found"; exit 1; fi'
             }
         }
         stage('Deploy') {
@@ -18,6 +18,7 @@ pipeline {
                     sh 'echo "FROM alpine:latest" > Dockerfile'
                     sh 'echo "COPY pes1ug20cs080-1 /usr/local/bin/" >> Dockerfile'
                     sh 'docker build -t pes1ug20cs080task5 .'
+                    sh 'rm Dockerfile'
                     // Run the Docker container
                     sh 'docker run -d --name pes1ug20cs080container pes1ug20cs080task5'
                 }
