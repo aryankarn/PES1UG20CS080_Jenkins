@@ -15,16 +15,15 @@ pipeline {
             steps {
                 script {
                     // Create a Dockerfile to build a Docker image
-                    sh 'echo "FROM alpine:latest" > Dockerfile'
-                    sh 'echo "COPY pes1ug20cs080-1 /usr/local/bin/" >> Dockerfile'
-                    sh 'docker build -t pes1ug20cs080task5 .'
-                    sh 'rm Dockerfile'
+                    sh 'echo "FROM alpine:latest" > ${WORKSPACE}/Dockerfile'
+                    sh 'echo "COPY pes1ug20cs080-1 /usr/local/bin/" >> ${WORKSPACE}/Dockerfile'
+                    sh 'docker build -t pes1ug20cs080task5 ${WORKSPACE}'
                     // Run the Docker container
                     sh 'docker run -d --name pes1ug20cs080container pes1ug20cs080task5'
-                }
-            }
         }
     }
+}
+
     post {
         failure {
             echo 'pipeline failed'
